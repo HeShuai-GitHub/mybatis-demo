@@ -1,0 +1,12 @@
+DROP TABLE menu;
+CREATE TABLE menu (menu_id bigint NOT NULL AUTO_INCREMENT COMMENT '菜单ID', menu_name varchar(50) NOT NULL COMMENT '菜单名称', remark varchar(500) COMMENT '备注', PRIMARY KEY (menu_id)) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='菜单权限表';
+DROP TABLE role;
+CREATE TABLE role (role_id bigint NOT NULL AUTO_INCREMENT COMMENT '角色ID', role_name varchar(30) NOT NULL COMMENT '角色名称', role_key varchar(100) NOT NULL COMMENT '角色权限字符串', role_sort int(4) NOT NULL COMMENT '显示顺序', status char(1) NOT NULL COMMENT '角色状态（0正常 1停用）', del_flag char(1) DEFAULT '0' COMMENT '删除标志（0代表存在 2代表删除）', remark varchar(500) COMMENT '备注', PRIMARY KEY (role_id)) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='角色信息表';
+DROP TABLE role_menu;
+CREATE TABLE role_menu (role_id bigint NOT NULL COMMENT '角色ID', menu_id bigint NOT NULL COMMENT '菜单ID', PRIMARY KEY (role_id, menu_id)) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='角色和菜单关联表';
+DROP TABLE user;
+CREATE TABLE user (id bigint NOT NULL AUTO_INCREMENT COMMENT 'id', name varchar(30) COMMENT '用户名', sex varchar(4) DEFAULT '男' COMMENT '性别', PRIMARY KEY (id)) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='用户表';
+INSERT INTO user (id, name, sex) VALUES (1, '张三', '女');
+INSERT INTO user (id, name, sex) VALUES (2, '李四', '男');
+DROP TABLE user_role;
+CREATE TABLE user_role (user_id bigint NOT NULL COMMENT '用户ID', role_id bigint NOT NULL COMMENT '角色ID', PRIMARY KEY (user_id, role_id)) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='用户和角色关联表';

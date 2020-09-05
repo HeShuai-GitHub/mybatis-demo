@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!--namespace:接口的全限定名，必须和接口名一致，以保证一一对应关系-->
+<mapper namespace="com.mybatis.demo.dao.UserDao">
+
+  <!--select 查询标签， id:唯一指定接口中的方法名，resultType:返回类型，类中的实例属性和数据库字段一一对应-->
+  <select id="selectAll" resultType="com.mybatis.demo.model.User">
+    select * from `user`
+  </select>
+
+  <select id="selectOne" parameterType="Integer" resultType="com.mybatis.demo.model.User">
+    select * from `user` where id=#{id}
+  </select>
+
+  <select id="selectByMap" parameterType="map" resultType="com.mybatis.demo.model.User">
+    select * from `user`
+    <where>
+      <if test="name != null"> and name like #{name}</if>
+      <if test="id != null"> and id=#{id}</if>
+      <if test="sex != null "> and sex=#{sex}</if>
+    </where>
+  </select>
+
+  <insert id="insert" parameterType="com.mybatis.demo.model.User" keyProperty="id" useGeneratedKeys="true">
+    insert into `user` (`id`,`name`,`sex`) values (#{id},#{name},#{sex})
+  </insert>
+
+  <update id="update" parameterType="com.mybatis.demo.model.User">
+    update `user`
+    <trim prefix="set" suffixOverrides=",">
+      <if test="name != null and name != ''">name = #{name}</if>
+      <if test="sex != null and sex != ''">sex = #{sex}</if>
+    </trim>
+    where id=#{id}
+  </update>
+
+  <delete id="delete" parameterType="Integer">
+    delete from `user` where id=#{id}
+  </delete>
+
+</mapper>

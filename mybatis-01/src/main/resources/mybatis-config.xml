@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--验证 XML 文档的正确性-->
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <!--配置sql日志信息-->
+    <settings>
+        <setting name="logImpl" value="STDOUT_LOGGING"/>
+    </settings>
+    <!--默认环境-->
+    <environments default="development">
+        <!--environment 元素体中包含了事务管理和连接池的配置-->
+        <environment id="development">
+            <transactionManager type="JDBC"/>
+            <dataSource type="POOLED">
+                <property name="driver" value="com.mysql.cj.jdbc.Driver"/>
+                <property name="url" value="jdbc:mysql://localhost:3306/demo?useUnicode=true&amp;characterEncoding=utf8&amp;zeroDateTimeBehavior=convertToNull&amp;useSSL=true&amp;serverTimezone=GMT%2B8"/>
+                <property name="username" value="root"/>
+                <property name="password" value="123"/>
+            </dataSource>
+        </environment>
+    </environments>
+    <!--mappers 元素包含了一组映射器（mapper）-->
+    <mappers>
+        <mapper resource="com/mybatis/demo/dao/UserMapper.xml"/>
+    </mappers>
+</configuration>
