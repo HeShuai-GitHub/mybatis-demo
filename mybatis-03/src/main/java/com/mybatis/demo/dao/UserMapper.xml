@@ -6,22 +6,21 @@
 <!--namespace:接口的全限定名，必须和接口名一致，以保证一一对应关系-->
 <mapper namespace="com.mybatis.demo.dao.UserMapper">
 
-  <!--select 查询标签， id:唯一指定接口中的方法名，resultType:返回类型，类中的实例属性和数据库字段一一对应-->
-  <select id="selectAll" resultType="com.mybatis.demo.model.User">
-    select * from `user`
+  <!--resultMap 元素是 MyBatis 中最重要最强大的元素。-->
+  <resultMap id="userMap" type="com.mybatis.demo.model.User">
+    <!--	column数据库中的列名，或者是列的别名。
+          property映射到列结果的字段或属性。
+    -->
+    <result column="sex" property="sex1"></result>
+  </resultMap>
+
+  <!--#{param1}:表示第一个参数，之后参数以此类推-->
+  <select id="selectLimit" resultMap="userMap">
+    select * from `user` limit #{param1}, #{param2}
   </select>
 
-  <select id="selectOne" parameterType="Integer" resultType="com.mybatis.demo.model.User">
+  <select id="selectOne" parameterType="Integer" resultMap="userMap">
     select * from `user` where id=#{id}
-  </select>
-
-  <select id="selectByMap" parameterType="map" resultType="com.mybatis.demo.model.User">
-    select * from `user`
-    <where>
-      <if test="name != null"> and name like #{name}</if>
-      <if test="id != null"> and id=#{id}</if>
-      <if test="sex != null "> and sex=#{sex}</if>
-    </where>
   </select>
 
   <insert id="insert" parameterType="com.mybatis.demo.model.User" keyProperty="id" useGeneratedKeys="true">

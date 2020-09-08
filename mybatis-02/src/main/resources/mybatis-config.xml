@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--验证 XML 文档的正确性-->
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <!--引用外部配置文件，对mybatis xml文件中的参数进行动态配置-->
+    <properties resource="db.properties">
+        <!--可以在xml中配置key-value的方式对参数进行配置-->
+        <!--<property name="password" value="F2Fa3!33TYyg"/>-->
+    </properties>
+
+    <!--配置sql日志信息-->
+    <settings>
+        <setting name="logImpl" value="STDOUT_LOGGING"/>
+    </settings>
+    <!--类型别名可为 Java 类型设置一个缩写名字,低冗余的全限定类名书写-->
+    <typeAliases>
+        <!--typeAlias 为某一个model类设置别名-->
+        <!--<typeAlias alias="user" type="com.mybatis.demo.model.User"></typeAlias>-->
+        <!--扫描指定的包文件下所有的model类，默认会使用 Bean 的首字母小写的非限定类名来作为它的别名，可以使用@Alias("")来单独设置别名-->
+        <package name="com.mybatis.demo.model"/>
+    </typeAliases>
+
+    <!--默认环境 default根据场景选择不同的数据源-->
+    <environments default="config">
+        <!--environment 元素体中包含了事务管理和数据源的配置-->
+        <environment id="development">
+            <!--事务管理器-->
+            <transactionManager type="JDBC"/>
+            <!--数据源-->
+            <dataSource type="POOLED">
+                <property name="driver" value="com.mysql.cj.jdbc.Driver"/>
+                <property name="url" value="jdbc:mysql://localhost:3306/demo?useUnicode=true&amp;characterEncoding=utf8&amp;zeroDateTimeBehavior=convertToNull&amp;useSSL=true&amp;serverTimezone=GMT%2B8"/>
+                <property name="username" value="root"/>
+                <property name="password" value="123"/>
+            </dataSource>
+        </environment>
+        <!--使用配置文件为 环境赋值-->
+        <environment id="config">
+            <!--在 MyBatis 中有两种类型的事务管理器（也就是 type="[JDBC|MANAGED]"）-->
+            <transactionManager type="JDBC"/>
+            <!--有三种数据源类型，UNPOOLED|POOLED|JNDI-->
+            <dataSource type="POOLED">
+                <property name="driver" value="${driver}"/>
+                <property name="url" value="${url}"/>
+                <property name="username" value="${username}"/>
+                <property name="password" value="${password}"/>
+            </dataSource>
+        </environment>
+    </environments>
+    <!--mappers 元素包含了一组映射器（mapper）-->
+    <mappers>
+        <!-- 使用相对于类路径的资源引用 -->
+        <!--<mapper resource="com/mybatis/demo/dao/UserMapper.xml"/>-->
+        <!-- 使用映射器接口实现类的完全限定类名 -->
+        <!--<mapper class="com.mybatis.demo.dao.UserMapper"></mapper>-->
+        <!-- 将包内的映射器接口实现全部注册为映射器 -->
+        <package name="com.mybatis.demo.dao"/>
+        <!--注：class和package 两种方式必须接口和所对应的xml配置文件在一个包下，名字相同-->
+    </mappers>
+</configuration>

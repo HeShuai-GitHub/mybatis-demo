@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!--namespace:接口的全限定名，必须和接口名一致，以保证一一对应关系-->
+<mapper namespace="com.mybatis.demo.dao.UserMapper">
+
+  <!--第一种方式：子查询-->
+  <select id="selectAll" resultMap="userAll">
+    select * from `user`
+  </select>
+
+  <resultMap id="userAll" type="com.mybatis.demo.model.User">
+    <id property="id" column="id"></id>
+    <result property="sex1" column="sex"></result>
+    <association property="role" column="id" javaType="com.mybatis.demo.model.Role" select="selectRole"></association>
+  </resultMap>
+
+  <select id="selectRole" resultType="com.mybatis.demo.model.Role">
+    select role_id as id,role_name as name from role where role_id in (
+        select ur.role_id from user_role ur where ur.user_id=#{param1}
+    )
+  </select>
+  <!--第一种方式：子查询  end -->
+
+  <!--第二种方式：结果集查询-->
+  <select id="selectAll1" resultMap="userAll1">
+    select u.id as id,u.name as name,u.sex as sex1,r.role_id as roleId,r.role_name as roleName
+     from `user` u, role r,user_role ur where u.id=ur.user_id and r.role_id=ur.role_id
+  </select>
+
+  <resultMap id="userAll1" type="com.mybatis.demo.model.User">
+    <id property="id" column="id"></id>
+    <association property="role" javaType="com.mybatis.demo.model.Role" select="selectRole" column="id" >
+      <id property="id" column="roleId"></id>
+      <result property="name" column="roleName"></result>
+    </association>
+  </resultMap>
+  <!--第二种方式：结果集查询 end-->
+
+</mapper>

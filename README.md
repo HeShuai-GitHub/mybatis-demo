@@ -13,4 +13,11 @@
 > mybatis中文文档：https://mybatis.org/mybatis-3/zh/index.html
 > spring+mybatis中文文档：http://mybatis.org/spring/zh/
 
+## 内容介绍
+mybatis-01：简单增删改查案例代码
+mybatis-02：mybatis-config配置文件属性讲解
+mybatis-03：配置log4j日志，注解查询方式，分页查询
+mybatis-04：Lombok简单使用，resultMap链表查询
+
+
 官网文档永远是可以最直接了解一个技术的地方
