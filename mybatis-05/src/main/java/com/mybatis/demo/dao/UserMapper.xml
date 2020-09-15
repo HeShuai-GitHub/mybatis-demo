@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!--namespace:接口的全限定名，必须和接口名一致，以保证一一对应关系-->
+<mapper namespace="com.mybatis.demo.dao.UserMapper">
+
+  <select id="selectAll" resultType="com.mybatis.demo.model.User" parameterType="com.mybatis.demo.model.User">
+    select * from `user`
+    /*where 元素只会在子元素返回任何内容的情况下才插入 “WHERE” 子句。而且，若子句的开头为 “AND” 或 “OR”，where 元素也会将它们去除。*/
+    <where>
+    /*判断“id”是否存在，若存在则添加where子句*/
+      <if test="id != null">
+        and id=#{id}
+      </if>
+      <if test="name != null and name != ''">
+        and name like concat('%',#{name},'%')
+      </if>
+      <if test="sex != null and sex != ''">
+        and sex = #{sex}
+      </if>
+    </where>
+  </select>
+
+  <select id="selectChoose" resultType="com.mybatis.demo.model.User" parameterType="com.mybatis.demo.model.User">
+    select * from `user`
+    /*trim,可以加前缀，清除多余的and和or，有点类似于定制化的where标签*/
+    <trim prefix="where" prefixOverrides="and | or">
+    /*choose 标签有些像java中的catch语句，同时只有一个条件成立，但第一个条件成立时，后面所有条件自动不成立*/
+        <choose>
+          <when test="id != null">and id=#{id}</when>
+          <when test="name != null and name != ''">and name like concat('%',#{name},'%')</when>
+          <when test="sex != null and sex != ''">and sex = #{sex}</when>
+        </choose>
+    </trim>
+  </select>
+  <!--foreach 循环集合参数，collection：集合名称，item：每个元素的变量值，open：开始，close：结尾，separator：每个元素划分-->
+  <select id="selectForeach" resultType="com.mybatis.demo.model.User" parameterType="com.mybatis.demo.model.User">
+    select * from `user`
+    <where>
+        <foreach collection="array" item="id" open="and id in(" close=")" separator=",">
+          #{id}
+        </foreach>
+    </where>
+  </select>
+
+  <!--set 元素会动态地在行首插入 SET 关键字，并会删掉额外的逗号（这些逗号是在使用条件语句给列赋值时引入的）-->
+  <update id="updateSet" parameterType="com.mybatis.demo.model.User">
+    update `user`
+    <set>
+      <if test="name != null and name != ''">
+        name=#{name},
+      </if>
+      <if test="sex != null and sex != ''">
+        sex = #{sex}
+      </if>
+    </set>
+    where id=#{id}
+  </update>
+
+</mapper>

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!--namespace:接口的全限定名，必须和接口名一致，以保证一一对应关系-->
+<mapper namespace="com.mybatis.demo.dao.UserMapper">
+
+  <!--显示开启二级缓存，作用于namespace中-->
+  <cache
+          eviction="FIFO"
+          flushInterval="60000"
+          size="512"
+          readOnly="true"/>
+
+  <select id="selectAll" resultType="com.mybatis.demo.model.User" parameterType="com.mybatis.demo.model.User">
+    select * from `user`
+    <where>
+      <if test="id != null">
+        and id=#{id}
+      </if>
+      <if test="name != null and name != ''">
+        and name like concat('%',#{name},'%')
+      </if>
+      <if test="sex != null and sex != ''">
+        and sex = #{sex}
+      </if>
+    </where>
+  </select>
+
+  <!--任何的修改操作都会刷新缓存-->
+  <update id="updateSet" parameterType="com.mybatis.demo.model.User">
+    update `user`
+    <set>
+      <if test="name != null and name != ''">
+        name=#{name},
+      </if>
+      <if test="sex != null and sex != ''">
+        sex = #{sex}
+      </if>
+    </set>
+    where id=#{id}
+  </update>
+
+</mapper>
