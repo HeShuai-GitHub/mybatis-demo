@@ -11,7 +11,7 @@
         WHERE `id` = #{id};
     </update>
 
-    <delete id="deleteUserById" parameterType="java.lang.String">
+    <delete id="deleteUserById" parameterType="String">
         DELETE FROM `user` WHERE id = #{id} AND username = #{username};
     </delete>
 
