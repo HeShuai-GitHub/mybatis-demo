@@ -29,4 +29,8 @@ mybatis-05：动态sql
 
 mybatis-06：mybatis缓存机制 
 
+IPersistence：自定义ORM框架、dom4j、XPath、动态代理
+
+IPersistenceTest：自定义ORM框架使用端测试
+
 官网文档永远是可以最直接了解一个技术的地方

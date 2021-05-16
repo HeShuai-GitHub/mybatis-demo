@@ -1,0 +1,22 @@
+<mapper namespace="com.hs.dao.UserMapper">
+    <select id="findAll" resultType="com.hs.vo.User">
+        SELECT id,username,password,birthday FROM `user`;
+    </select>
+    <select id="findOne" parameterType="com.hs.vo.User" resultType="com.hs.vo.User">
+        SELECT id,username,password,birthday FROM `user` WHERE id = #{id} AND username = #{username};
+    </select>
+
+    <update id="updateUserById" parameterType="com.hs.vo.User" >
+        UPDATE `user` SET `username` = #{username}, `password` = #{password}, `birthday` = #{birthday}
+        WHERE `id` = #{id};
+    </update>
+
+    <delete id="deleteUserById" parameterType="java.lang.String">
+        DELETE FROM `user` WHERE id = #{id} AND username = #{username};
+    </delete>
+
+    <insert id="insertUser" parameterType="com.hs.vo.User" >
+        INSERT INTO `user` VALUES(#{id},#{username},#{password},#{birthday});
+    </insert>
+
+</mapper>
