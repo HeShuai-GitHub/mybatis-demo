@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <!--将指定配置文件引入当前xml配置中-->
+    <properties resource="properties/jdbc.properties">
+    </properties>
+    <!--设置环境，当前项目可配置多个环境，如test、dev，default属性中定义的是当前所选择的环境-->
+    <environments default="simple">
+        <!--定义数据库环境信息，如当前环境标识、事务、数据库连接池-->
+        <environment id="simple">
+            <transactionManager type="jdbc"></transactionManager>
+            <dataSource type="pooled">
+                <property name="driver" value="${mysql.driver}"/>
+                <property name="url" value="${mysql.url}"/>
+                <property name="username" value="${mysql.username}"/>
+                <property name="password" value="${mysql.password}"/>
+            </dataSource>
+        </environment>
+    </environments>
+
+    <!--加载指定mapper信息-->
+    <mappers>
+        <!--
+        使用这两种方式都是将UserMapper注册到MapperRegistry中，但是这种方式有一种前提，就是必须UserMapper.xml和UserMapper在同一个包下
+        <mapper class="com.hs.mybatis.simple.dao.UserMapper"/>
+        <package name="com.hs.mybatis.simple.dao"/>
+        -->
+        <!--使用这种方式是先加载xml配置文件，然后通过namespace去加载对应的接口-->
+        <mapper resource="simple\mapper\UserMapper.xml"/>
+    </mappers>
+</configuration>
