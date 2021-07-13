@@ -1,4 +1,4 @@
-package com.hs.mybatis.dqlMapping.pojo;
+package com.hs.mybatis.annotation.pojo;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

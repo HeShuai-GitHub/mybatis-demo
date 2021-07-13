@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hs.mybatis.dqlMapping.mapper.OrderMapper">
+
+    <!--一对一映射，order和user-->
+    <resultMap id="orderMap" type="order">
+        <id property="id" column="id"/>
+        <result property="orderTime" column="ordertime"/>
+        <result property="total" column="total"/>
+        <result property="uid" column="uid"/>
+        <association property="user" javaType="user" columnPrefix="user_" >
+            <id property="id" column="id"/>
+            <result property="username" column="username"/>
+            <result property="birthday" column="birthday"/>
+            <result property="password" column="password"/>
+        </association>
+    </resultMap>
+
+    <!--这里和上面一样，不过是为了展示resultMap的重用方式而已-->
+    <resultMap id="orderMap2" type="order">
+        <id property="id" column="id"/>
+        <result property="orderTime" column="ordertime"/>
+        <result property="total" column="total"/>
+        <result property="uid" column="uid"/>
+        <association property="user" javaType="user" columnPrefix="user_" resultMap="userMap" />
+    </resultMap>
+    <!--可重用映射-->
+    <resultMap id="userMap" type="user">
+        <id property="id" column="id"/>
+        <result property="username" column="username"/>
+        <result property="birthday" column="birthday"/>
+        <result property="password" column="password"/>
+    </resultMap>
+
+    <select id="selectOrderById" parameterType="integer" resultMap="orderMap">
+        SELECT `order`.*, `user`.id AS user_id, `user`.username AS user_username, `user`.password AS user_password, `user`.birthday AS user_birthday
+        FROM `user` `user`
+        RIGHT JOIN `orders` `order`
+        ON `order`.uid = `user`.id
+        WHERE `order`.id = #{id}
+    </select>
+
+    <select id="selectOrderByCondition" parameterType="order" resultMap="orderMap2">
+        SELECT `order`.*, `user`.id AS user_id, `user`.username AS user_username, `user`.password AS user_password, `user`.birthday AS user_birthday
+        FROM `user` `user`
+        RIGHT JOIN `orders` `order`
+        ON `order`.uid = `user`.id
+        <where>
+            <if test="id != null">
+                `order`.id = #{id}
+            </if>
+            <if test="orderTime != null and orderTime !=''">
+                AND `order`.ordertime = #{orderTime}
+            </if>
+            <if test="total != null">
+                AND `order`.total = #{total}
+            </if>
+            <if test="uid != null">
+                AND `order`.uid = #{uid}
+            </if>
+        </where>
+    </select>
+</mapper>

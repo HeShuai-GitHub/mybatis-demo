@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hs.mybatis.dqlMapping.mapper.UserMapper">
+
+    <!--多对多映射，role和user-->
+    <resultMap id="userRoleMap" type="user" extends="com.hs.mybatis.dqlMapping.mapper.OrderMapper.userMap">
+        <collection property="roles" ofType="com.hs.mybatis.dqlMapping.pojo.Role" columnPrefix="r_">
+            <id column="id" property="id"/>
+            <result column="rolename" property="roleName"/>
+            <result column="roledesc" property="roleDesc"/>
+        </collection>
+    </resultMap>
+    <!--一对多映射，user和order-->
+    <resultMap id="userMap" type="user" extends="com.hs.mybatis.dqlMapping.mapper.OrderMapper.userMap" >
+        <collection property="orders" ofType="order" columnPrefix="o_">
+            <id property="id" column="id"/>
+            <result property="orderTime" column="ordertime"/>
+            <result property="total" column="total"/>
+            <result property="uid" column="uid"/>
+        </collection>
+    </resultMap>
+
+    <select id="selectUserByCondition" parameterType="user" resultMap="userMap">
+        SELECT `u`.*, o.id o_id, o.ordertime o_ordertime, o.total o_total, o.uid o_uid
+        FROM `user` u
+        LEFT JOIN `orders` o
+        ON u.id = o.uid
+        <where>
+            <if test="id != null">
+                u.id = #{id}
+            </if>
+             <if test="username != null">
+                AND u.username = #{username}
+            </if>
+             <if test="password != null">
+                AND u.password = #{password}
+            </if>
+             <if test="birthday != null">
+                AND u.birthday = #{birthday}
+            </if>
+        </where>
+    </select>
+    <select id="selectUserAndRoleALl" resultMap="userRoleMap">
+        SELECT u.*, r.id r_id, r.rolename r_rolename, r.roleDesc r_roleDesc
+        FROM `user` u
+        LEFT JOIN `sys_user_role` sur
+        ON sur.userid = u.id
+        INNER JOIN `sys_role` r
+        ON sur.roleid = r.id
+    </select>
+</mapper>

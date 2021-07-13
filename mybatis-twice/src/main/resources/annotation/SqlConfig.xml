@@ -6,12 +6,6 @@
 
     <properties resource="properties/jdbc.properties"/>
 
-    <!--别名-->
-    <typeAliases>
-        <typeAlias type="com.hs.mybatis.dqlMapping.pojo.Order" alias="order"/>
-        <typeAlias type="com.hs.mybatis.dqlMapping.pojo.User" alias="user"/>
-    </typeAliases>
-
     <environments default="default">
         <environment id="default">
             <transactionManager type="jdbc"></transactionManager>
@@ -25,8 +19,7 @@
     </environments>
 
     <mappers>
-        <mapper resource="dqlMapping/mapper/OrderMapper.xml"/>
-        <mapper resource="dqlMapping/mapper/UserMapper.xml"/>
+        <package name="com.hs.mybatis.annotation.mapper"/>
     </mappers>
 
 </configuration>
