@@ -30,5 +30,4 @@ public interface RoleMapper {
     // @SelectProvider() 如果想省略method参数，只需要SqlBuilder构造器实现接口ProviderMethodResolver并且保持方法名一致就可以了，下面这个方法就可以省略method参数，不过为了例子完整没有省略
     @SelectProvider(type = SqlBuilder.class,method = "findRoleByCondition")
     List<Role> findRoleByCondition(Role role);
-
 }

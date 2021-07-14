@@ -27,7 +27,6 @@ public interface UserMapper {
     @SelectProvider(type = SqlBuilder.class)
     List<User> selectUserByCondition(User user);
 
-    List<User> selectUserAndRoleALl();
 
     @Select("SELECT `user`.id AS id, `user`.username AS username, `user`.password AS password, `user`.birthday AS birthday " +
             "FROM `user` `user` " +
