@@ -13,6 +13,7 @@ import java.util.List;
  *
  * @date 2021年06月05日 22:48
  */
+@CacheNamespace
 public interface RoleMapper {
 
     @Select("SELECT * FROM sys_role WHERE id = #{id}")

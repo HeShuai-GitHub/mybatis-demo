@@ -6,6 +6,10 @@
 
     <properties resource="properties/jdbc.properties"/>
 
+    <settings>
+        <setting name="cacheEnabled" value="true"/>
+    </settings>
+
     <environments default="default">
         <environment id="default">
             <transactionManager type="jdbc"></transactionManager>

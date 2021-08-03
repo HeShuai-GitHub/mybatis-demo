@@ -4,6 +4,7 @@ import com.hs.mybatis.annotation.sql.SqlBuilder;
 import com.hs.mybatis.annotation.pojo.Order;
 import com.hs.mybatis.annotation.pojo.User;
 import org.apache.ibatis.annotations.*;
+import org.apache.ibatis.cache.impl.PerpetualCache;
 import org.apache.ibatis.mapping.FetchType;
 
 import java.util.List;
@@ -14,6 +15,7 @@ import java.util.List;
  * @description: 展示一对一映射
  * @date 2021年06月05日 20:42
  */
+@CacheNamespace
 public interface OrderMapper {
     @Select("SELECT `order`.*, `user`.id AS user_id, `user`.username AS user_username, `user`.password AS user_password, `user`.birthday AS user_birthday " +
             "FROM `user` `user` " +
@@ -57,4 +59,7 @@ public interface OrderMapper {
 
     @Select("SELECT id, ordertime AS orderTime, total, uid FROM orders WHERE uid = #{id} ")
     List<Order> selectById(Integer uid);
+
+    @SelectProvider(type = SqlBuilder.class)
+    Integer updateOrder(Order order);
 }

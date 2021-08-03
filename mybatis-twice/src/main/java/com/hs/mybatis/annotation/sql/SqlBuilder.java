@@ -1,9 +1,9 @@
 package com.hs.mybatis.annotation.sql;
 
 import com.alibaba.druid.sql.dialect.mysql.ast.MysqlForeignKey;
+import com.hs.mybatis.annotation.pojo.Order;
 import com.hs.mybatis.annotation.pojo.Role;
 import com.hs.mybatis.annotation.pojo.User;
-import com.hs.mybatis.dqlMapping.pojo.Order;
 import com.mysql.cj.util.StringUtils;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.builder.annotation.ProviderMethodResolver;
@@ -63,6 +63,19 @@ public  class SqlBuilder implements ProviderMethodResolver {
                 WHERE("u.birthday = #{birthday}");
             if (null != user.getPassword())
                 WHERE("u.password = #{password}");
+        }}.toString();
+    }
+
+    public static String updateOrder(final Order order){
+        return new SQL(){{
+            UPDATE("orders");
+            if (null != order.getOrderTime())
+                SET("ordertime = " + order.getOrderTime());
+            if (null != order.getTotal())
+                SET("total = " + order.getTotal());
+            if (null != order.getUid())
+                SET("uid = " + order.getUid());
+            WHERE("id = " + order.getId());
         }}.toString();
     }
 

@@ -1,6 +1,9 @@
 package com.hs.mybatis.annotation.pojo;
 
 import lombok.Data;
+import lombok.ToString;
+
+import java.io.Serializable;
 
 /**
  * @author heshuai
@@ -9,7 +12,8 @@ import lombok.Data;
  * @date 2021年06月05日 20:39
  */
 @Data
-public class Role {
+@ToString
+public class Role implements Serializable {
     private Integer id;
     private String roleName;
     private String roleDesc;
