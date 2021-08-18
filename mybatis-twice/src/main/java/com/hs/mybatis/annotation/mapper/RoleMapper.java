@@ -3,6 +3,8 @@ package com.hs.mybatis.annotation.mapper;
 import com.hs.mybatis.annotation.pojo.Role;
 import com.hs.mybatis.annotation.sql.SqlBuilder;
 import org.apache.ibatis.annotations.*;
+import org.apache.ibatis.cache.impl.PerpetualCache;
+import org.mybatis.caches.redis.RedisCache;
 
 import java.util.List;
 
@@ -13,7 +15,7 @@ import java.util.List;
  *
  * @date 2021年06月05日 22:48
  */
-@CacheNamespace
+@CacheNamespace(implementation = RedisCache.class)
 public interface RoleMapper {
 
     @Select("SELECT * FROM sys_role WHERE id = #{id}")

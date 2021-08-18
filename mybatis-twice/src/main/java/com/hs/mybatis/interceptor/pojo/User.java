@@ -1,14 +1,11 @@
-package com.hs.mybatis.annotation.pojo;
+package com.hs.mybatis.interceptor.pojo;
 
+import com.hs.mybatis.annotation.pojo.Order;
+import com.hs.mybatis.annotation.pojo.Role;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
 import java.io.Serializable;
 import java.util.List;
 
@@ -21,12 +18,12 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "user")
 public class User implements Serializable {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String username;
     private String password;
     private String birthday;
+    // 用户所下的所有订单
+    private List<Order> orders;
+    private List<Role> roles;
 }

@@ -82,7 +82,7 @@ public class CacheTest {
         System.out.println(role2);
         Role role3 = roleMapper3.findOneById(1);
         System.out.println(role3);
-        // 一级缓存 缓存的是查询出的对象引用
+        // 二级缓存 缓存的是查询出的对象序列化数据
         System.out.println(role1 == role2);
     }
 }

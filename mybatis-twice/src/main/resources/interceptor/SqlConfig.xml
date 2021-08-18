@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <properties resource="properties/jdbc.properties"/>
+
+    <plugins>
+        <!--多个插件是根据这里顺序依次加入到Mybatis插件链中-->
+       <!-- <plugin interceptor="com.hs.mybatis.interceptor.my.MyInterceptor">
+            <property name="value" value="**插件属性测试**"/>
+        </plugin>-->
+        <plugin interceptor="com.github.pagehelper.PageHelper">
+            <property name="dialect" value="mysql"/>
+        </plugin>
+        <plugin interceptor="tk.mybatis.mapper.mapperhelper.MapperInterceptor">
+            <!-- 通用Mapper接口，多个通用接口用逗号隔开 -->
+            <property name="mappers" value="tk.mybatis.mapper.common.Mapper"/>
+        </plugin>
+    </plugins>
+
+    <environments default="default">
+        <environment id="default">
+            <transactionManager type="jdbc"></transactionManager>
+            <dataSource type="pooled">
+                <property name="driver" value="${mysql.driver}"/>
+                <property name="url" value="${mysql.url}"/>
+                <property name="username" value="${mysql.username}"/>
+                <property name="password" value="${mysql.password}"/>
+            </dataSource>
+        </environment>
+    </environments>
+    
+    <mappers>
+        <package name="com.hs.mybatis.interceptor.mapper"/>
+    </mappers>
+
+</configuration>
